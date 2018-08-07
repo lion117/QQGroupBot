@@ -4,21 +4,23 @@ import sys, os, time
 
 from  work.FxWork import onMsgParse
 
-g_User = '@何思远'
+g_User = '@雨淋淋'
+g_List = [ '@梁衍鹏', '@何思远', '@黎振佳','@汤伯超']
 
 
 def onQQMessage(bot, contact, member, content):
-    if g_User not in content:
-        return
-    else:
-        if '-stop 8888' in content:
-            bot.SendTo(contact, 'QQ机器人已关闭')
-            bot.Stop()
-            return
+    for itor in g_List:
+        if itor not in content:
+            continue
         else:
-            linfo = onMsgParse(bot,contact, member, content)
-            lResp = str.format('%s\r\n@%s'%(linfo,member))
-            bot.SendTo(contact ,lResp)
+            if '-stop 8888' in content:
+                bot.SendTo(contact, 'QQ机器人已关闭')
+                bot.Stop()
+                return
+            else:
+                linfo = onMsgParse(bot,contact, member, content)
+                lResp = str.format('%s\r\n'%(linfo))
+                bot.SendTo(contact ,lResp)
 
 
 
