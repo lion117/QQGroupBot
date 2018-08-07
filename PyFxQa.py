@@ -2,20 +2,23 @@
 
 import sys, os, time
 
+from  work.FxWork import onMsgParse
+
 g_User = '@何思远'
 
 
-
-
 def onQQMessage(bot, contact, member, content):
-    if content == '-hello':
-        bot.SendTo(contact, '你好，我是QQ机器人')
-    elif content == '-stop':
-        bot.SendTo(contact, 'QQ机器人已关闭')
-        bot.Stop()
-    elif contact == 'leo_nardo':
-        bot.SendTo(contact,'your are my master')
-
+    if g_User not in content:
+        return
+    else:
+        if '-stop 8888' in content:
+            bot.SendTo(contact, 'QQ机器人已关闭')
+            bot.Stop()
+            return
+        else:
+            linfo = onMsgParse(bot,contact, member, content)
+            lResp = str.format('%s\r\n@%s'%(linfo,member))
+            bot.SendTo(contact ,lResp)
 
 
 
