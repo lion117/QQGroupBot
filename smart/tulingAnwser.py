@@ -26,9 +26,9 @@ def autoAnwser(tText, tUser ='default'):
                     {
                         "location":
                             {
-                                "city": "上海",
-                                "province": "上海",
-                                "street": "文汇路"
+                                "city": "广州",
+                                "province": "广东",
+                                "street": "heaven"
                             }
                     }
             },
@@ -46,6 +46,7 @@ def autoAnwser(tText, tUser ='default'):
     response_dic = json.loads(response_str)
     intent_code = response_dic['intent']['code']
     results_text = response_dic['results'][0]['values']['text']
+    print results_text
     return  results_text
 
 
@@ -55,7 +56,7 @@ class MainRun():
     def runInteractiate(cls):
         print(u"please input your text")
         while True:
-            lText = raw_input()
+            lText = raw_input().decode('gbk')
             if lText == 'q':
                 print(u"quit from loop")
                 return
