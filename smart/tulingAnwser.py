@@ -11,7 +11,8 @@ g_key = '9e594598f880744e'
 g_urlV1 ='http://www.tuling123.com/openapi/api'
 g_urlV2 ='http://openapi.tuling123.com/openapi/api/v2'
 g_timeout = 10
-
+g_lastTsp = 0
+g_eclipse = 5*60*1000
 
 def autoAnwser(tText, tUser ='default'):
     req = {
@@ -47,7 +48,18 @@ def autoAnwser(tText, tUser ='default'):
     intent_code = response_dic['intent']['code']
     results_text = response_dic['results'][0]['values']['text']
     print results_text
-    return  results_text
+    return  (intent_code,results_text)
+
+
+def doTulingTask(tText, tUser ='default'):
+    global  g_lastTsp
+    lNow = time.time()
+    if lNow - g_lastTsp < g_eclipse:
+        return (False, None)
+    (lCode , lResult) = autoAnwser(tText)
+    g_lastTsp = lNow
+    return (True, lResult)
+
 
 
 
