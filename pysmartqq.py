@@ -1,22 +1,25 @@
 # -*- coding: utf-8 -*-
-
+import logging
 import sys, os, time
 import smart.dynamicLoadModule
+import smart.parseSmart
+g_group  = 'group'
+g_discuss = 'discuss'
+g_buddy = 'buddy'
 
 
-g_qq = ''
-g_debug = False
 
 
 def onQQMessage(bot, contact, member, content):
-    if member.qq == '1902115681':
-        if g_debug :
-            lret = smart.dynamicLoadModule.onDynamicLoad(contact, member, content)
-            bot.SendTo(contact, lret)
-        else:
-            import smart.parseSmart
-            bot.SendTo(contact, smart.parseSmart.onSmartParse(contact,member, content))
+    if contact.ctype == g_group:
+        (lIsSend , lContent) = smart.parseSmart.onSmartParseGroup(contact,member, content)
+        if lIsSend :
+            bot.SendTo(contact, lContent)
 
+    elif contact.ctype == g_discuss:
+        pass
+    elif contact.ctype == g_buddy:
+        pass
 
 
 
@@ -27,5 +30,3 @@ def onQQMessage(bot, contact, member, content):
 
 if __name__ == "__main__":
     print os.getcwd()
-    import smart.parseSmart
-    smart.parseSmart.onSmartParse('test', 'test', 'content')

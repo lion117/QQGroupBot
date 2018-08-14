@@ -3,7 +3,7 @@
 import sys, os, time
 import json
 import urllib2
-
+from qqbot.utf8logger import utf8Logger
 
 
 g_appid= '3c640db2e63742cab7c46d856d1a4eb1'
@@ -12,7 +12,7 @@ g_urlV1 ='http://www.tuling123.com/openapi/api'
 g_urlV2 ='http://openapi.tuling123.com/openapi/api/v2'
 g_timeout = 10
 g_lastTsp = 0
-g_eclipse = 5*60*1000
+g_eclipse = 5*1000
 
 def autoAnwser(tText, tUser ='default'):
     req = {
@@ -55,9 +55,11 @@ def doTulingTask(tText, tUser ='default'):
     global  g_lastTsp
     lNow = time.time()
     if lNow - g_lastTsp < g_eclipse:
+        utf8Logger.error("doTulingTask is in hot")
         return (False, None)
     (lCode , lResult) = autoAnwser(tText)
     g_lastTsp = lNow
+    utf8Logger.info("tuling code : %d text : %s"%(lCode,lResult))
     return (True, lResult)
 
 

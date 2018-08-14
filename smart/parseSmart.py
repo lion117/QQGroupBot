@@ -9,6 +9,7 @@ All Rights Reserved Licensed under the Apache License
 import os, sys,time
 import  tulingAnwser
 import work.FxWork
+from qqbot.utf8logger import utf8Logger
 
 g_groupFxFeedbk = '酷狗直播伴侣问题反馈'
 g_groupTest = '测试群'
@@ -17,6 +18,10 @@ g_workerTest = 'leo_nardo'
 g_disCoupleStream = '双流问题反馈'
 g_list = [ '@梁衍鹏', '@何思远', '@黎振佳','@汤伯超']
 
+
+def log(tText):
+    if True:
+        utf8Logger.info(tText)
 
 def onSmartParseTest(contact, member, content):
     # lRet =
@@ -63,21 +68,26 @@ def onSmartParseTest(contact, member, content):
 
 def onSmartParseGroup(contact, member, content):
     lDefault = (False, None)
+    log(str.format("recieve from group : %s from member %s, encode type:%s"% (contact.name, member.name,type(content))))
+
     if contact.name == g_groupFxFeedbk or contact.name == g_groupTest:
+        log("find target group %s"%(contact.name))
         lNow = time.localtime(time.time())
-        if lNow.tm_hour > 20 or lNow.tm_hour < 9 :
+        if lNow.tm_hour > 9 and lNow.tm_hour < 20 :
+            log("time is in wrok %d"%(lNow.tm_hour))
             # doing normal task
             for itor in g_list:
                 if itor not in content:
                     continue
                 else:
                     linfo = work.FxWork.onMsgParse(None, contact, member, content)
-                    Resp = str.format('%s\r\n' % (linfo))
                     return (True, linfo)
         else:
-            if member.nick == g_worker or member.nick == g_workerTest:
+            log("time is in free %d"%(lNow.tm_hour))
+            if member.name == g_worker or member.name == g_workerTest:
                 return tulingAnwser.doTulingTask(content,member.nick)
-        return lDefault
+        log("not trigger anything")
+    return (False,"not group")
 
 
 
