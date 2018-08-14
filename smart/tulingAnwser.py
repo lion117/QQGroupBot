@@ -12,7 +12,7 @@ g_urlV1 ='http://www.tuling123.com/openapi/api'
 g_urlV2 ='http://openapi.tuling123.com/openapi/api/v2'
 g_timeout = 10
 g_lastTsp = 0
-g_eclipse = 5*1000
+g_eclipse = 5
 
 def autoAnwser(tText, tUser ='default'):
     req = {
@@ -55,7 +55,7 @@ def doTulingTask(tText, tUser ='default'):
     global  g_lastTsp
     lNow = time.time()
     if lNow - g_lastTsp < g_eclipse:
-        utf8Logger.error("doTulingTask is in hot")
+        utf8Logger.error("doTulingTask is in colding")
         return (False, None)
     (lCode , lResult) = autoAnwser(tText)
     g_lastTsp = lNow
