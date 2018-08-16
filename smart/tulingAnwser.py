@@ -12,7 +12,7 @@ g_urlV1 ='http://www.tuling123.com/openapi/api'
 g_urlV2 ='http://openapi.tuling123.com/openapi/api/v2'
 g_timeout = 10
 g_lastTsp = 0
-g_eclipse = 5
+g_eclipse = 5*60
 
 def autoAnwser(tText, tUser ='default'):
     req = {
